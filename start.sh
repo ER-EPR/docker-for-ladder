@@ -9,6 +9,9 @@ xray run -config $2 &
 # Start the third process
 #caddy run --config $3 --adapter caddyfile &
 
+# Start the fourth process
+cloudflared tunnel run --token $3 &
+
 # Wait for any process to exit
 wait -n
 
