@@ -1,16 +1,16 @@
 #!/bin/bash
 
 # Start the first process
-hysteria server -c $1 &
+[ -n "$1" ] && [ "$1" != "null" ] && hysteria server -c $1 &
 
 # Start the second process
-xray run -config $2 &
+[ -n "$2" ] && [ "$2" != "null" ] && xray run -config $2 &
 
 # Start the third process
 #caddy run --config $3 --adapter caddyfile &
 
 # Start the fourth process
-cloudflared tunnel run --token $3 &
+[ -n "$3" ] && [ "$3" != "null" ] && cloudflared tunnel run --token $3 &
 
 # Wait for any process to exit
 wait -n
