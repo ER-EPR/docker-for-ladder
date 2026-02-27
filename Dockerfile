@@ -1,5 +1,6 @@
 FROM ghcr.io/xtls/xray-core:latest AS xray
 #FROM caddy:latest AS caddy
+FROM cloudflare/cloudflared:latest AS cf
 FROM tobyxdd/hysteria:latest AS build
 RUN mkdir -p /tmp/empty
 
@@ -19,5 +20,6 @@ COPY --from=build --chown=0:0 --chmod=755 /tmp/empty /usr/local/etc/xray
 COPY --from=build --chown=0:0 --chmod=755 /tmp/empty /var/log/xray
 COPY --from=xray --chown=65532:65532 --chmod=600 /var/log/xray/*.log /var/log/xray/
 #COPY --from=caddy --chown=0:0 --chmod=755 /usr/bin/caddy /usr/bin/caddy
+COPY --from=cf --chown=nonroot --chmod=755 /usr/local/bin/cloudflared /usr/local/bin/
 
 ENTRYPOINT [ "./start.sh" ] 
